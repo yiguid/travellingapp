@@ -76,6 +76,7 @@ angular.module('starter.account-controllers', [])
       },
       error: function(user, error) {
         // 失败了
+        alert("Error: " + error.code + " " + error.message);
         if(error.code == -1){
         //alert("Error: " + error.code + " " + error.message);
           $ionicPopup.alert({
@@ -181,6 +182,7 @@ angular.module('starter.account-controllers', [])
       },
       error: function(user, error) {
         // 失败了.
+        alert("Error: " + error.code + " " + error.message);
         $ionicPopup.alert({
           title: '登录失败',
           content: '用户名或密码错误！'
