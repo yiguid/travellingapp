@@ -21,7 +21,7 @@
 #import "CDAddRequest.h"
 #import "CDIMService.h"
 #import "LZPushManager.h"
-#import "TabsViewController.h"
+#import "MemoTableViewController.h"
 #import "MainViewController.h"
 #import <iRate/iRate.h>
 #import <iVersion/iVersion.h>
@@ -74,6 +74,10 @@
         [self toLogin];
     }
     
+    if (self.window.rootViewController == NULL){
+        self.loginVC = [[CDLoginVC alloc] init];
+        self.window.rootViewController = self.loginVC;
+    }
     
     [[LZPushManager manager] registerForRemoteNotification];
     
@@ -162,12 +166,18 @@
     [[CDChatManager manager] openWithClientId:[AVUser currentUser].objectId callback: ^(BOOL succeeded, NSError *error) {
         DLog(@"%@", error);
         CDBaseTabC *tab = [[CDBaseTabC alloc] init];
+        //活动
+        [weakSelf addItemController:[[MainViewController alloc] init] toTabBarController:tab];
+        //游记
+        [weakSelf addItemController:[[MemoTableViewController alloc] init] toTabBarController:tab];
+        //添加按钮
         [weakSelf addItemController:[[CDConvsVC alloc] init] toTabBarController:tab];
+        //朋友
         [weakSelf addItemController:[[CDFriendListVC alloc] init] toTabBarController:tab];
+        //我的
         [weakSelf addItemController:[[CDProfileVC alloc] init] toTabBarController:tab];
         
-        [weakSelf addItemController:[[TabsViewController alloc] init] toTabBarController:tab];
-        [weakSelf addItemController:[[MainViewController alloc] init] toTabBarController:tab];
+        
         
         tab.selectedIndex = 0;
         weakSelf.window.rootViewController = tab;
